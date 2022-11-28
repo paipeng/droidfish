@@ -19,64 +19,6 @@
 
 package org.petero.droidfish;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.petero.droidfish.activities.CPUWarning;
-import org.petero.droidfish.activities.EditBoard;
-import org.petero.droidfish.activities.EditOptions;
-import org.petero.droidfish.activities.EditPGNLoad;
-import org.petero.droidfish.activities.EditPGNSave;
-import org.petero.droidfish.activities.LoadFEN;
-import org.petero.droidfish.activities.LoadScid;
-import org.petero.droidfish.activities.util.PGNFile;
-import org.petero.droidfish.activities.util.PGNFile.GameInfo;
-import org.petero.droidfish.activities.Preferences;
-import org.petero.droidfish.book.BookOptions;
-import org.petero.droidfish.engine.DroidComputerPlayer.EloData;
-import org.petero.droidfish.engine.EngineUtil;
-import org.petero.droidfish.engine.UCIOptions;
-import org.petero.droidfish.gamelogic.DroidChessController;
-import org.petero.droidfish.gamelogic.ChessParseError;
-import org.petero.droidfish.gamelogic.Game;
-import org.petero.droidfish.gamelogic.Move;
-import org.petero.droidfish.gamelogic.Position;
-import org.petero.droidfish.gamelogic.TextIO;
-import org.petero.droidfish.gamelogic.GameTree.Node;
-import org.petero.droidfish.gamelogic.TimeControlData;
-import org.petero.droidfish.tb.Probe;
-import org.petero.droidfish.tb.ProbeResult;
-import org.petero.droidfish.view.MoveListView;
-import org.petero.droidfish.view.ChessBoard.SquareDecoration;
-
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Pointer;
-import tourguide.tourguide.Sequence;
-import tourguide.tourguide.ToolTip;
-import tourguide.tourguide.TourGuide;
-
-import com.caverock.androidsvg.SVG;
-import com.caverock.androidsvg.SVGParseException;
-import com.kalab.chess.enginesupport.ChessEngine;
-import com.kalab.chess.enginesupport.ChessEngineResolver;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -116,10 +58,6 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.drawerlayout.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -131,9 +69,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
@@ -149,9 +87,72 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
+import com.kalab.chess.enginesupport.ChessEngine;
+import com.kalab.chess.enginesupport.ChessEngineResolver;
+
+import org.petero.droidfish.activities.CPUWarning;
+import org.petero.droidfish.activities.EditBoard;
+import org.petero.droidfish.activities.EditOptions;
+import org.petero.droidfish.activities.EditPGNLoad;
+import org.petero.droidfish.activities.EditPGNSave;
+import org.petero.droidfish.activities.LoadFEN;
+import org.petero.droidfish.activities.LoadScid;
+import org.petero.droidfish.activities.Preferences;
+import org.petero.droidfish.activities.util.PGNFile;
+import org.petero.droidfish.activities.util.PGNFile.GameInfo;
+import org.petero.droidfish.book.BookOptions;
+import org.petero.droidfish.engine.DroidComputerPlayer.EloData;
+import org.petero.droidfish.engine.EngineUtil;
+import org.petero.droidfish.engine.UCIOptions;
+import org.petero.droidfish.gamelogic.ChessParseError;
+import org.petero.droidfish.gamelogic.DroidChessController;
+import org.petero.droidfish.gamelogic.Game;
+import org.petero.droidfish.gamelogic.GameTree.Node;
+import org.petero.droidfish.gamelogic.Move;
+import org.petero.droidfish.gamelogic.Position;
+import org.petero.droidfish.gamelogic.TextIO;
+import org.petero.droidfish.gamelogic.TimeControlData;
+import org.petero.droidfish.tb.Probe;
+import org.petero.droidfish.tb.ProbeResult;
+import org.petero.droidfish.view.ChessBoard.SquareDecoration;
+import org.petero.droidfish.view.MoveListView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.Sequence;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 @SuppressLint("ClickableViewAccessibility")
 public class DroidFish extends Activity
-                       implements GUIInterface,
+                       implements GUIInterface, PgnScreenText.PgnScreenTextInterface,
                                   ActivityCompat.OnRequestPermissionsResultCallback {
     private ChessBoardPlay cb;
     DroidChessController ctrl = null;

@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /** PngTokenReceiver implementation that renders PGN data for screen display. */
-class PgnScreenText implements PgnToken.PgnTokenReceiver,
+public class PgnScreenText implements PgnToken.PgnTokenReceiver,
                                MoveListView.OnLinkClickListener {
     private SpannableStringBuilder sb = new SpannableStringBuilder();
     private TreeMap<Integer, Node> offs2Node = new TreeMap<>();
@@ -47,7 +47,7 @@ class PgnScreenText implements PgnToken.PgnTokenReceiver,
     private int currPos = 0, endPos = 0;
     private boolean upToDate = false;
     private PGNOptions options;
-    private DroidFish df;
+    private PgnScreenTextInterface pgnScreenTextInterface;
 
     private static class NodeInfo {
         int l0, l1;
@@ -58,8 +58,8 @@ class PgnScreenText implements PgnToken.PgnTokenReceiver,
     }
     private HashMap<Node, NodeInfo> nodeToCharPos = new HashMap<>();
 
-    PgnScreenText(DroidFish df, PGNOptions options) {
-        this.df = df;
+    public PgnScreenText(PgnScreenTextInterface pgnScreenTextInterface, PGNOptions options) {
+        this.pgnScreenTextInterface = pgnScreenTextInterface;
         this.options = options;
     }
 
@@ -127,7 +127,7 @@ class PgnScreenText implements PgnToken.PgnTokenReceiver,
         if (node == null)
             return false;
 
-        df.goNode(node);
+        pgnScreenTextInterface.goNode(node);
         return true;
     }
 
@@ -263,5 +263,9 @@ class PgnScreenText implements PgnToken.PgnTokenReceiver,
         } else {
             currPos = 0;
         }
+    }
+
+    public interface PgnScreenTextInterface {
+        void goNode(Node node);
     }
 }
