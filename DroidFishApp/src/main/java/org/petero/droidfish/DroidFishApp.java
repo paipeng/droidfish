@@ -18,7 +18,6 @@
 
 package org.petero.droidfish;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,13 +29,12 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-public class DroidFishApp extends Application {
+public class DroidFishApp {
     private static Context appContext;
     private static Toast toast;
 
     public DroidFishApp() {
         super();
-        appContext = this;
     }
 
     /** Get the application context. */
@@ -44,15 +42,9 @@ public class DroidFishApp extends Application {
         return appContext;
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(setLanguage(base, false));
-    }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        setLanguage(appContext, false);
+    public static void setAppContext(Context appContext) {
+        DroidFishApp.appContext = appContext;
     }
 
     public static Context setLanguage(Context context, boolean restartIfLangChange) {
