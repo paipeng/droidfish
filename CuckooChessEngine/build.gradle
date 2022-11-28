@@ -19,7 +19,7 @@ targetCompatibility = '8'
 task buildBook {
     def a = "CuckooChessEngine/src/main/book.txt"
     def b = "CuckooChessEngine/src/main/resources/book.bin"
-    chess.Book.main2(a, b)
+    //chess.Book.main2(a, b)
 }
 tasks.withType(JavaCompile) {
     t -> t.dependsOn buildBook
