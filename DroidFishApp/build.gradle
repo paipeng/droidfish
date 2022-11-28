@@ -1,10 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "org.petero.droidfish"
+        //applicationId "org.petero.droidfish"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 97
@@ -73,7 +73,7 @@ dependencies {
 task buildEco {
     def a = "buildSrc/src/main/java/chess/eco.pgn"
     def b = "DroidFishApp/src/main/assets/eco.dat"
-    chess.EcoBuilder.main2(a, b)
+    //chess.EcoBuilder.main2(a, b)
 }
 preBuild.dependsOn buildEco
 
@@ -89,8 +89,12 @@ tasks.withType(JavaCompile) {
     t -> t.dependsOn copyToAssets
 }
 android {
+    /*
   applicationVariants.all { variant ->
     tasks["merge${variant.name.capitalize()}Assets"]
       .dependsOn(copyToAssets)
   }
+
+     */
 }
+
