@@ -18,7 +18,26 @@
 
 package org.petero.droidfish.gamelogic;
 
+import android.util.Log;
 import android.util.Pair;
+
+import org.petero.droidfish.EngineOptions;
+import org.petero.droidfish.GUIInterface;
+import org.petero.droidfish.GUIInterface.ThinkingInfo;
+import org.petero.droidfish.GameMode;
+import org.petero.droidfish.PGNOptions;
+import org.petero.droidfish.Util;
+import org.petero.droidfish.book.BookOptions;
+import org.petero.droidfish.book.EcoDb;
+import org.petero.droidfish.book.IOpeningBook.BookPosInput;
+import org.petero.droidfish.engine.DroidComputerPlayer;
+import org.petero.droidfish.engine.DroidComputerPlayer.EloData;
+import org.petero.droidfish.engine.DroidComputerPlayer.SearchRequest;
+import org.petero.droidfish.engine.DroidComputerPlayer.SearchType;
+import org.petero.droidfish.engine.UCIOptions;
+import org.petero.droidfish.gamelogic.Game.CommentInfo;
+import org.petero.droidfish.gamelogic.Game.GameState;
+import org.petero.droidfish.gamelogic.GameTree.Node;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,26 +50,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.petero.droidfish.EngineOptions;
-import org.petero.droidfish.GUIInterface;
-import org.petero.droidfish.GUIInterface.ThinkingInfo;
-import org.petero.droidfish.GameMode;
-import org.petero.droidfish.PGNOptions;
-import org.petero.droidfish.Util;
-import org.petero.droidfish.book.BookOptions;
-import org.petero.droidfish.book.EcoDb;
-import org.petero.droidfish.book.IOpeningBook.BookPosInput;
-import org.petero.droidfish.engine.DroidComputerPlayer;
-import org.petero.droidfish.engine.UCIOptions;
-import org.petero.droidfish.engine.DroidComputerPlayer.EloData;
-import org.petero.droidfish.engine.DroidComputerPlayer.SearchRequest;
-import org.petero.droidfish.engine.DroidComputerPlayer.SearchType;
-import org.petero.droidfish.gamelogic.Game.CommentInfo;
-import org.petero.droidfish.gamelogic.Game.GameState;
-import org.petero.droidfish.gamelogic.GameTree.Node;
-
 /** The glue between the chess engine and the GUI. */
 public class DroidChessController {
+    private static final String TAG = DroidChessController.class.getSimpleName();
     private DroidComputerPlayer computerPlayer = null;
     private PgnToken.PgnTokenReceiver gameTextListener;
     private BookOptions bookOptions = new BookOptions();
@@ -703,6 +705,7 @@ public class DroidChessController {
         }
     }
 
+
     /** Engine search information receiver. */
     private final class SearchListener implements org.petero.droidfish.gamelogic.SearchListener {
         private int currDepth = 0;
@@ -1240,5 +1243,17 @@ public class DroidChessController {
         game.tryClaimDraw("draw 50" + ms);
         if (game.getGameState() != GameState.ALIVE) return true;
         return false;
+    }
+
+
+    public List<Move> getMoveHistories() {
+        Pair<Position, ArrayList<Move>> histories = game.getUCIHistory();
+
+        List<String> moves = new ArrayList<>();
+        Log.d(TAG, "position: \n" + histories.first);
+        for (Move move  : histories.second) {
+            Log.d(TAG, "move: " + move);
+        }
+        return histories.second;
     }
 }
