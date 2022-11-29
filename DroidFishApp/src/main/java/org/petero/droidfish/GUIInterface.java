@@ -18,11 +18,11 @@
 
 package org.petero.droidfish;
 
-import java.util.ArrayList;
-
 import org.petero.droidfish.gamelogic.Game;
 import org.petero.droidfish.gamelogic.Move;
 import org.petero.droidfish.gamelogic.Position;
+
+import java.util.ArrayList;
 
 /** Interface between the GUI and the ChessController. */
 public interface GUIInterface {
@@ -42,6 +42,19 @@ public interface GUIInterface {
         public boolean ponder = false;
         public boolean thinking = false;
         public boolean analyzing = false;
+
+        @Override
+        public String toString() {
+            return "GameStatus{" +
+                "state=" + state +
+                ", moveNr=" + moveNr +
+                ", drawInfo='" + drawInfo + '\'' +
+                ", white=" + white +
+                ", ponder=" + ponder +
+                ", thinking=" + thinking +
+                ", analyzing=" + analyzing +
+                '}';
+        }
     }
 
     /** Set the status text. */
@@ -59,6 +72,20 @@ public interface GUIInterface {
         public ArrayList<Move> bookMoves;
         public String eco;
         public int distToEcoTree;
+
+        @Override
+        public String toString() {
+            return "ThinkingInfo{" +
+                "id=" + id +
+                ", pvStr='" + pvStr + '\'' +
+                ", statStr='" + statStr + '\'' +
+                ", bookInfo='" + bookInfo + '\'' +
+                ", pvMoves=" + pvMoves +
+                ", bookMoves=" + bookMoves +
+                ", eco='" + eco + '\'' +
+                ", distToEcoTree=" + distToEcoTree +
+                '}';
+        }
     }
 
     /** Update the computer thinking information. */
