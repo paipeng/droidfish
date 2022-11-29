@@ -18,10 +18,6 @@
 
 package org.petero.droidfish;
 
-import org.petero.droidfish.gamelogic.Piece;
-import org.petero.droidfish.gamelogic.Position;
-import org.petero.droidfish.view.MoveListView;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -34,6 +30,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.petero.droidfish.gamelogic.Piece;
+import org.petero.droidfish.gamelogic.Position;
+import org.petero.droidfish.view.MoveListView;
 
 public final class Util {
     public final static String boldStart;
@@ -59,6 +59,14 @@ public final class Util {
         MaterialDiff(CharSequence w, CharSequence b) {
             white = w;
             black = b;
+        }
+
+        @Override
+        public String toString() {
+            return "MaterialDiff{" +
+                "white=" + white +
+                ", black=" + black +
+                '}';
         }
     }
 
